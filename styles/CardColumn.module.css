@@ -1,0 +1,31 @@
+
+
+.columnContainer {
+    /* background: #faedcd; */
+    background: #ccd5ae;
+    height: 400px;
+    width: 250px;
+    padding: 20px;
+    border-radius: 15px;
+    color: black;
+    font-size: 14px;
+}
+
+.heading {
+    color: black;
+    font-size: 16px;
+}
+
+.columnScroll {
+    height: 80%;
+    border: 1px solid red;
+}
+
+.columnAddButton {
+    border: 1px solid orange;
+}
+
+.columnAddButton:hover {
+    background: pink;
+    cursor: pointer;
+}

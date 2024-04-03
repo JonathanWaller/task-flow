@@ -1,0 +1,22 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
+    /* align-items: center; */
+    padding: 6rem;
+    min-height: 100vh;
+    background-color: red;
+    /* background: #ccd5ae; */
+    background: black;
+    border: 1px solid blue;
+  }
+
+.dashboard {
+    background: #738678;
+    border: 1px solid blue;
+}
+
+.columnsWrapper {
+    border: 1px solid red;
+    display: flex;
+}
