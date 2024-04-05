@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
 
 import styles from '@/styles/Dashboard.module.css';
-import { boardColumns } from '@/app/utils';
-import { Column } from '@/app/types';
+import { boardColumns } from '@/app/lib/utils';
+import { Column } from '@/app/lib/types';
 
 import CardColumn from '@/app/ui/dashboard/column';
 // import { Card } from '@/app/ui/dashboard/cards';
