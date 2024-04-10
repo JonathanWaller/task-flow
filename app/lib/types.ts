@@ -5,3 +5,8 @@ export interface Column {
     category: ColumnCategory;
     display: ColumnDisplay
 }
+
+export type Member = {
+    id: number;
+    name: string;
+}

@@ -1,8 +1,12 @@
-import { useState } from 'react';
+
+
+import { useState, useEffect } from 'react';
 
 import { createTicket } from '@/app/lib/actions';
 import { boardColumns } from '@/app/lib/utils';
-import { Column } from '@/app/lib/types';
+import { Column, Member } from '@/app/lib/types';
+
+import { fetchMembers } from '@/app/lib/data';
 
 // import { CustomerField } from '@/app/lib/definitions';
 import Link from 'next/link';
@@ -32,6 +36,8 @@ const Form = () => {
         dueDate: null
     });
 
+    const [ members, setMembers ] = useState<Member[]>([]);
+
     const handleChange = (e: any) => {
         const { name, value} = e.target;
         setFormData((prevData) => ({
@@ -49,6 +55,14 @@ const Form = () => {
     // const createTicket = () => {
 
     // }
+
+    useEffect( () => {
+      const fetchTeamMembers = async () => {
+        setMembers( await fetchMembers() );
+      }
+
+      fetchTeamMembers();
+    }, []);
 
   return (
     <form
@@ -83,7 +97,7 @@ const Form = () => {
             <option value="" disabled>
                 Select a user
             </option>
-            {users.map((user) => (
+            {members?.map((user) => (
                 <option key={user.id} value={user.id}>
                     {user.name}
                 </option>
