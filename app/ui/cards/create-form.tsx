@@ -8,6 +8,11 @@ import { Column, Member } from '@/app/lib/types';
 
 import { fetchMembers } from '@/app/lib/data';
 
+import Input from '../input';
+import Button from '../button';
+
+import styles from '@/styles/CreateForm.module.css';
+
 // import { CustomerField } from '@/app/lib/definitions';
 import Link from 'next/link';
 // import {
@@ -22,29 +27,33 @@ import Link from 'next/link';
 
 // const users = ['Jasmine', 'Randy', 'Clark'];
 
-const users = [
-    {id: 1, name: 'Jasmine'},
-    {id: 2, name: 'Randy'},
-    {id: 3, name: 'Clark'}
-]
+// const users = [
+//     {id: 1, name: 'Jasmine'},
+//     {id: 2, name: 'Randy'},
+//     {id: 3, name: 'Clark'}
+// ]
 
-const Form = () => {
-    const [ formData, setFormData ] = useState({
-        title: '',
-        description: '',
-        assignedTo: '',
-        dueDate: null
-    });
+const Form = ({
+  closeModal
+}: {
+  closeModal?: () => void;
+}) => {
+    // const [ formData, setFormData ] = useState({
+    //     title: '',
+    //     description: '',
+    //     assignedTo: '',
+    //     dueDate: null
+    // });
 
     const [ members, setMembers ] = useState<Member[]>([]);
 
-    const handleChange = (e: any) => {
-        const { name, value} = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value
-        }))
-    }
+    // const handleChange = (e: any) => {
+    //     const { name, value} = e.target;
+    //     setFormData((prevData) => ({
+    //         ...prevData,
+    //         [name]: value
+    //     }))
+    // }
 
     // const handleSubmit = (e) => {
     //     e.preventDefault();
@@ -64,23 +73,46 @@ const Form = () => {
       fetchTeamMembers();
     }, []);
 
+    const innerCreateTicket = async (formData: FormData) => {
+       console.log('firstll', formData)
+    }
+
   return (
     <form
-      action={createTicket}
+      // action={createTicket}
+      // action={(els: FormData)=>{
+      //   console.log('first', els)
+      // }}
+      action={innerCreateTicket}
+      className={styles.container}
     >
       <div>
-        <input
+        {/* <input
             id="title"
             name="title"
             type="string"
             placeholder="Title"
+        /> */}
+
+        <Input
+          id={'title'}
+          placeholder={"Title"}
+          name={'title'}
+          type={'string'}
         />
 
-        <input
+        {/* <input
             id="description"
             name="description"
             type="string"
             placeholder="Description"
+        /> */}
+
+        <Input
+          id='description'
+          placeholder="Description"
+          name='description'
+          type='string'
         />
       </div>
 
@@ -123,9 +155,20 @@ const Form = () => {
         </select>
       </div>
 
-      <div>
-        <div>Cancel</div>
-        <button type="submit">Create Invoice</button>
+      <div className={styles.actionContainer}>
+        {/* <div>Cancel</div> */}
+        <Button
+          onClick={closeModal}
+        >
+          Cancel
+        </Button>
+        {/* <button type="submit">Create Invoice</button> */}
+
+        <Button
+          type='submit'
+        >
+          Create Ticket
+        </Button>
       </div>
     </form>
   );
