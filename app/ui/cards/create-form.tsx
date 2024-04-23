@@ -8,6 +8,11 @@ import { Column, Member } from '@/app/lib/types';
 
 import { fetchMembers } from '@/app/lib/data';
 
+import Input from '../input';
+import Button from '../button';
+
+import styles from '@/styles/CreateForm.module.css';
+
 // import { CustomerField } from '@/app/lib/definitions';
 import Link from 'next/link';
 // import {
@@ -22,29 +27,34 @@ import Link from 'next/link';
 
 // const users = ['Jasmine', 'Randy', 'Clark'];
 
-const users = [
-    {id: 1, name: 'Jasmine'},
-    {id: 2, name: 'Randy'},
-    {id: 3, name: 'Clark'}
-]
+// const users = [
+//     {id: 1, name: 'Jasmine'},
+//     {id: 2, name: 'Randy'},
+//     {id: 3, name: 'Clark'}
+// ]
 
-const Form = () => {
-    const [ formData, setFormData ] = useState({
-        title: '',
-        description: '',
-        assignedTo: '',
-        dueDate: null
-    });
+const Form = ({
+  closeModal
+}: {
+  closeModal?: () => void;
+}) => {
+    // const [ formData, setFormData ] = useState({
+    //     title: '',
+    //     description: '',
+    //     assignedTo: '',
+    //     dueDate: null
+    // });
 
     const [ members, setMembers ] = useState<Member[]>([]);
+    const [formStatus, setFormStatus] = useState<'loading' | 'error' | 'active'>('loading');
 
-    const handleChange = (e: any) => {
-        const { name, value} = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value
-        }))
-    }
+    // const handleChange = (e: any) => {
+    //     const { name, value} = e.target;
+    //     setFormData((prevData) => ({
+    //         ...prevData,
+    //         [name]: value
+    //     }))
+    // }
 
     // const handleSubmit = (e) => {
     //     e.preventDefault();
@@ -64,69 +74,96 @@ const Form = () => {
       fetchTeamMembers();
     }, []);
 
+    const checkFormFields = async (formData: FormData) => {
+      if( formStatus === 'error') setFormStatus('active');
+
+      const fieldValues = {};
+      for( let [key, value] of formData.entries()) {
+        fieldValues[key] = value;
+      }
+
+      if( 
+        !fieldValues.title
+        || !fieldValues?.status
+        || !fieldValues.description
+      ) {
+        setFormStatus('error');
+        return;
+      }
+
+      createTicket(formData);
+    }
+
   return (
     <form
-      action={createTicket}
+      action={checkFormFields}
+      className={styles.container}
     >
-      <div>
-        <input
-            id="title"
-            name="title"
-            type="string"
-            placeholder="Title"
-        />
-
-        <input
-            id="description"
-            name="description"
-            type="string"
+      <div className={styles.outer}>
+        <div>
+          <Input
+            id={'title'}
+            placeholder={"Title"}
+            name={'title'}
+            type={'string'}
+          />
+          <Input
+            id='description'
             placeholder="Description"
-        />
+            name='description'
+            type='string'
+          />
+        </div>
+
+        <label htmlFor="assignedTo">
+          Assigned To
+        </label>
+
+        <div>
+          <select
+              id="assignedTo"
+              name="assignedTo"
+              defaultValue=""
+          >
+              <option value="" disabled>
+                  Select a user
+              </option>
+              {members?.map((user) => (
+                  <option key={user.id} value={user.id}>
+                      {user.name}
+                  </option>
+              ))}
+          </select>
+        </div>
+
+        <div>
+          <select
+              id="status"
+              name="status"
+              defaultValue=""
+          >
+              <option value="" disabled>
+                  Choose the current status
+              </option>
+              {boardColumns.map((column: Column, index) => (
+                  <option key={index} value={column.category}>
+                      {column.display}
+                  </option>
+              ))}
+          </select>
+        </div>
+
+        <div className={styles.actionContainer}>
+          <Button onClick={closeModal}>
+            Cancel
+          </Button>
+          <Button type='submit'>
+            Create Ticket
+          </Button>
+        </div>
       </div>
-
-      <label htmlFor="assignedTo">
-        Assigned To
-      </label>
-
-      <div>
-        <select
-            id="assignedTo"
-            name="assignedTo"
-            defaultValue=""
-        >
-            <option value="" disabled>
-                Select a user
-            </option>
-            {members?.map((user) => (
-                <option key={user.id} value={user.id}>
-                    {user.name}
-                </option>
-            ))}
-        </select>
-
-      </div>
-
-      <div>
-        <select
-            id="status"
-            name="status"
-            defaultValue=""
-        >
-            <option value="" disabled>
-                Choose the current status
-            </option>
-            {boardColumns.map((column: Column, index) => (
-                <option key={index} value={column.category}>
-                    {column.display}
-                </option>
-            ))}
-        </select>
-      </div>
-
-      <div>
-        <div>Cancel</div>
-        <button type="submit">Create Invoice</button>
-      </div>
+      
+        {formStatus === 'error' && <div className={styles.error}>Fill out all fields</div>}
     </form>
   );
 }

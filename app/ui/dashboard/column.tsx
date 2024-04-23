@@ -61,8 +61,7 @@ export default function CardColumn({
                 contentLabel="Example Modal"
 
             >
-                {/* <div>hey im a modal</div> */}
-                <CreateForm />
+                <CreateForm closeModal={closeModal}/>
             </Modal>
         </div>
     )
