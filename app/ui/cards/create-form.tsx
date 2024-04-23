@@ -46,6 +46,7 @@ const Form = ({
     // });
 
     const [ members, setMembers ] = useState<Member[]>([]);
+    const [formStatus, setFormStatus] = useState<'loading' | 'error' | 'active'>('loading');
 
     // const handleChange = (e: any) => {
     //     const { name, value} = e.target;
@@ -73,103 +74,96 @@ const Form = ({
       fetchTeamMembers();
     }, []);
 
-    const innerCreateTicket = async (formData: FormData) => {
-       console.log('firstll', formData)
+    const checkFormFields = async (formData: FormData) => {
+      if( formStatus === 'error') setFormStatus('active');
+
+      const fieldValues = {};
+      for( let [key, value] of formData.entries()) {
+        fieldValues[key] = value;
+      }
+
+      if( 
+        !fieldValues.title
+        || !fieldValues?.status
+        || !fieldValues.description
+      ) {
+        setFormStatus('error');
+        return;
+      }
+
+      createTicket(formData);
     }
 
   return (
     <form
-      // action={createTicket}
-      // action={(els: FormData)=>{
-      //   console.log('first', els)
-      // }}
-      action={innerCreateTicket}
+      action={checkFormFields}
       className={styles.container}
     >
-      <div>
-        {/* <input
-            id="title"
-            name="title"
-            type="string"
-            placeholder="Title"
-        /> */}
-
-        <Input
-          id={'title'}
-          placeholder={"Title"}
-          name={'title'}
-          type={'string'}
-        />
-
-        {/* <input
-            id="description"
-            name="description"
-            type="string"
+      <div className={styles.outer}>
+        <div>
+          <Input
+            id={'title'}
+            placeholder={"Title"}
+            name={'title'}
+            type={'string'}
+          />
+          <Input
+            id='description'
             placeholder="Description"
-        /> */}
+            name='description'
+            type='string'
+          />
+        </div>
 
-        <Input
-          id='description'
-          placeholder="Description"
-          name='description'
-          type='string'
-        />
+        <label htmlFor="assignedTo">
+          Assigned To
+        </label>
+
+        <div>
+          <select
+              id="assignedTo"
+              name="assignedTo"
+              defaultValue=""
+          >
+              <option value="" disabled>
+                  Select a user
+              </option>
+              {members?.map((user) => (
+                  <option key={user.id} value={user.id}>
+                      {user.name}
+                  </option>
+              ))}
+          </select>
+        </div>
+
+        <div>
+          <select
+              id="status"
+              name="status"
+              defaultValue=""
+          >
+              <option value="" disabled>
+                  Choose the current status
+              </option>
+              {boardColumns.map((column: Column, index) => (
+                  <option key={index} value={column.category}>
+                      {column.display}
+                  </option>
+              ))}
+          </select>
+        </div>
+
+        <div className={styles.actionContainer}>
+          <Button onClick={closeModal}>
+            Cancel
+          </Button>
+          <Button type='submit'>
+            Create Ticket
+          </Button>
+        </div>
       </div>
-
-      <label htmlFor="assignedTo">
-        Assigned To
-      </label>
-
-      <div>
-        <select
-            id="assignedTo"
-            name="assignedTo"
-            defaultValue=""
-        >
-            <option value="" disabled>
-                Select a user
-            </option>
-            {members?.map((user) => (
-                <option key={user.id} value={user.id}>
-                    {user.name}
-                </option>
-            ))}
-        </select>
-
-      </div>
-
-      <div>
-        <select
-            id="status"
-            name="status"
-            defaultValue=""
-        >
-            <option value="" disabled>
-                Choose the current status
-            </option>
-            {boardColumns.map((column: Column, index) => (
-                <option key={index} value={column.category}>
-                    {column.display}
-                </option>
-            ))}
-        </select>
-      </div>
-
-      <div className={styles.actionContainer}>
-        {/* <div>Cancel</div> */}
-        <Button
-          onClick={closeModal}
-        >
-          Cancel
-        </Button>
-        {/* <button type="submit">Create Invoice</button> */}
-
-        <Button
-          type='submit'
-        >
-          Create Ticket
-        </Button>
-      </div>
+      
+        {formStatus === 'error' && <div className={styles.error}>Fill out all fields</div>}
     </form>
   );
 }
