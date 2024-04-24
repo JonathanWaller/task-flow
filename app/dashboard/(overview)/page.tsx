@@ -2,9 +2,11 @@ import { Suspense } from 'react';
 
 import styles from '@/styles/Dashboard.module.css';
 import { boardColumns } from '@/app/lib/utils';
-import { Column } from '@/app/lib/types';
+import { Column, TicketType } from '@/app/lib/types';
 
 import CardColumn from '@/app/ui/dashboard/column';
+
+import { fetchTickets } from '@/app/lib/data';
 // import { Card } from '@/app/ui/dashboard/cards';
 // import CardWrapper from '@/app/ui/dashboard/cards';
 // import RevenueChart from '@/app/ui/dashboard/revenue-chart';
@@ -18,6 +20,7 @@ import CardColumn from '@/app/ui/dashboard/column';
  
 export default async function Page() {
     // const latestInvoices = await fetchLatestInvoices();
+    const availableTickets: TicketType[] = await fetchTickets();
 
     // const { numberOfCustomers, numberOfInvoices, totalPaidInvoices, totalPendingInvoices} = await fetchCardData();
 
@@ -35,6 +38,7 @@ export default async function Page() {
                     key={index}
                     category={column.category}
                     display = {column.display}
+                    tickets={availableTickets?.length ? availableTickets.filter((x: TicketType) => x.status === column.category) : []}
                 />
             ))
         }

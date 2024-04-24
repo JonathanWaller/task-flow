@@ -5,8 +5,11 @@ import styles from '@/styles/CardColumn.module.css';
 
 import { ColumnCategory, ColumnDisplay } from '@/app/lib/types';
 import CreateForm from '../cards/create-form';
+import Ticket from './ticket';
 
 import Modal from 'react-modal';
+
+import { type TicketType } from '@/app/lib/types';
 
 import { Column } from '@/app/lib/types';
 
@@ -24,10 +27,12 @@ const customStyles = {
 
 export default function CardColumn({
     category,
-    display
+    display,
+    tickets
 }: {
     category: ColumnCategory;
-    display: ColumnDisplay
+    display: ColumnDisplay;
+    tickets: TicketType[];
 }) {
 
     const [ isModalOpen, setIsModalOpen ] = useState<boolean>(false);
@@ -45,7 +50,16 @@ export default function CardColumn({
     return (
         <div className={styles.columnContainer}>
             <div className={styles.heading}>{display}</div>
-            <div className={styles.columnScroll}></div>
+            <div className={styles.columnScroll}>
+                {
+                    tickets && tickets.map((ticket: TicketType) => (
+                        <Ticket 
+                            key={ticket.id}
+                            details={ticket}
+                        />
+                    ))
+                }
+            </div>
             <div 
                 className={styles.columnAddButton}
                 onClick={()=>setIsModalOpen(true)}
