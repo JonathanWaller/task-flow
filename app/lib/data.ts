@@ -3,7 +3,7 @@
 import { sql } from '@vercel/postgres';
 import { unstable_noStore as noStore } from 'next/cache';
 
-import { Member } from './types';
+import { Member, TicketType } from './types';
 
 export async function fetchMembers () {
     // noStore();
@@ -14,5 +14,15 @@ export async function fetchMembers () {
     } catch (error) {
         console.error(`Database Error: ${error}`);
         throw new Error('Failed to fetch members');
+    }
+}
+
+export const fetchTickets = async () => {
+    try {
+        const {rows} = await sql<TicketType>`SELECT * FROM tickets`;
+        return rows;
+    } catch (error) {
+        console.error(`Database Error: ${error}`);
+        throw new Error('Failed to fetch tickets');
     }
 }

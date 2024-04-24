@@ -10,3 +10,11 @@ export type Member = {
     id: number;
     name: string;
 }
+
+export type TicketType = {
+    id: number;
+    title: string;
+    description: string;
+    assignedTo: number;
+    status: ColumnCategory;
+}
