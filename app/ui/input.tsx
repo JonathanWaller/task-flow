@@ -5,16 +5,16 @@ const Input = ({
     id,
     placeholder, 
     name,
-    value, 
-    error,
+    // value, 
+    // error,
     type
 }: {
     label?: string;
     id: string;
     placeholder: string;
     name: string;
-    value: string;
-    error: string;
+    // value: string;
+    // error: string;
     type?: string;
 }) => {
 
