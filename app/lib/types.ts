@@ -15,6 +15,6 @@ export type TicketType = {
     id: number;
     title: string;
     description: string;
-    assignedTo: number;
+    assignedto: number;
     status: ColumnCategory;
 }

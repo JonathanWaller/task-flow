@@ -12,7 +12,7 @@ const FormSchema = z.object({
     // customerId: z.string(),
     title: z.string(),
     description: z.string(),
-    assignedTo: z.string(),
+    assignedto: z.string(),
     // amount: z.coerce.number(),
     status: z.enum(['backlog', 'todo', 'dev', 'complete']),
     // dueDate: z.string(),
@@ -24,16 +24,16 @@ export const createTicket = async (formData: FormData) => {
     console.log('form data: ', formData);
     // const { }
 
-    const { title, status, description, assignedTo} = CreateTicket.parse({
+    const { title, status, description, assignedto} = CreateTicket.parse({
       title: formData.get('title'),
       description: formData.get('description'),
-      assignedTo: formData.get('assignedTo'),
+      assignedto: formData.get('assignedto'),
       status: formData.get('status')
     })
 
     await sql`
-      INSERT INTO tickets (title, description, assignedTo, status)
-      VALUES (${title}, ${description}, ${assignedTo}, ${status})
+      INSERT INTO tickets (title, description, assignedto, status)
+      VALUES (${title}, ${description}, ${assignedto}, ${status})
     `;
 
 

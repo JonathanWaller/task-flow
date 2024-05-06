@@ -34,14 +34,16 @@ import Link from 'next/link';
 // ]
 
 const Form = ({
+  status,
   closeModal
 }: {
+  status?: 'view' | 'create';
   closeModal?: () => void;
 }) => {
     // const [ formData, setFormData ] = useState({
     //     title: '',
     //     description: '',
-    //     assignedTo: '',
+    //     assignedto: '',
     //     dueDate: null
     // });
 
@@ -115,14 +117,14 @@ const Form = ({
           />
         </div>
 
-        <label htmlFor="assignedTo">
+        <label htmlFor="assignedto">
           Assigned To
         </label>
 
         <div>
           <select
-              id="assignedTo"
-              name="assignedTo"
+              id="assignedto"
+              name="assignedto"
               defaultValue=""
           >
               <option value="" disabled>
