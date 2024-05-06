@@ -79,8 +79,16 @@ const Form = ({
     const checkFormFields = async (formData: FormData) => {
       if( formStatus === 'error') setFormStatus('active');
 
-      const fieldValues = {};
+      const fieldValues: {
+        title: string;
+        status?: string;
+        description: string;
+      } = {
+        title: '',
+        description: ''
+      };
       for( let [key, value] of formData.entries()) {
+        // @ts-ignore
         fieldValues[key] = value;
       }
 
