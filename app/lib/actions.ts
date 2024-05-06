@@ -21,8 +21,6 @@ const FormSchema = z.object({
   const CreateTicket = FormSchema.omit({id: true, date: true});
 
 export const createTicket = async (formData: FormData) => {
-    console.log('form data: ', formData);
-    // const { }
 
     const { title, status, description, assignedto} = CreateTicket.parse({
       title: formData.get('title'),
