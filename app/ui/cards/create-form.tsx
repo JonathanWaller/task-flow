@@ -13,7 +13,6 @@ import Button from '../button';
 
 import styles from '@/styles/CreateForm.module.css';
 
-// import { CustomerField } from '@/app/lib/definitions';
 import Link from 'next/link';
 // import {
 //   CheckIcon,
@@ -25,14 +24,6 @@ import Link from 'next/link';
 
 // import { createInvoice } from '@/app/lib/actions';
 
-// const users = ['Jasmine', 'Randy', 'Clark'];
-
-// const users = [
-//     {id: 1, name: 'Jasmine'},
-//     {id: 2, name: 'Randy'},
-//     {id: 3, name: 'Clark'}
-// ]
-
 const Form = ({
   status,
   closeModal
@@ -40,33 +31,9 @@ const Form = ({
   status?: 'view' | 'create';
   closeModal?: () => void;
 }) => {
-    // const [ formData, setFormData ] = useState({
-    //     title: '',
-    //     description: '',
-    //     assignedto: '',
-    //     dueDate: null
-    // });
 
     const [ members, setMembers ] = useState<Member[]>([]);
     const [formStatus, setFormStatus] = useState<'loading' | 'error' | 'active'>('loading');
-
-    // const handleChange = (e: any) => {
-    //     const { name, value} = e.target;
-    //     setFormData((prevData) => ({
-    //         ...prevData,
-    //         [name]: value
-    //     }))
-    // }
-
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     // Handle form submission, e.g., submit data to API or perform validation
-    //     console.log('Form submitted:', formData);
-    //   };
-
-    // const createTicket = () => {
-
-    // }
 
     useEffect( () => {
       const fetchTeamMembers = async () => {

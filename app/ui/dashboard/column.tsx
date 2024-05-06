@@ -1,60 +1,33 @@
 'use client';
 
 import { useState } from 'react';
-import styles from '@/styles/CardColumn.module.css';
-
-import { ColumnCategory, ColumnDisplay } from '@/app/lib/types';
-import CreateForm from '../cards/create-form';
-import Ticket from './ticket';
 
 import Modal from 'react-modal';
 
-import { type TicketType } from '@/app/lib/types';
+import { ColumnDisplay, TicketType } from '@/app/lib/types';
+import CreateForm from '../cards/create-form';
+import Ticket from './ticket';
 
-import { Column } from '@/app/lib/types';
+import { modalStyles } from '@/app/lib/utils';
 
-const customStyles = {
-    content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-      color: 'black'
-    },
-  };
+import styles from '@/styles/CardColumn.module.css';
 
 export default function CardColumn({
-    category,
     display,
     tickets
 }: {
-    category: ColumnCategory;
     display: ColumnDisplay;
     tickets: TicketType[];
 }) {
 
-    type ModalType = 'create' | 'view';
-
     const [ isModalOpen, setIsModalOpen ] = useState<boolean>(false);
-    const [ modalDisplay, setModalDisplay ] = useState< ModalType | null>();
 
     const afterOpenModal = () => {
         // references are now sync'd and can be accessed.
         // subtitle.style.color = '#f00';
     }
 
-    const modalClick = (type: ModalType) => {
-        setModalDisplay( type );
-        setIsModalOpen(true)
-    }
-    
-    const closeModal = () => {
-        setModalDisplay(null);
-        setIsModalOpen(false);
-    }
-
+    const closeModal = () => setIsModalOpen(false);
 
     return (
         <div className={styles.columnContainer}>
@@ -62,21 +35,16 @@ export default function CardColumn({
             <div className={styles.columnScroll}>
                 {
                     tickets && tickets.map((ticket: TicketType) => (
-                        <div
+                        <Ticket 
                             key={ticket.id}
-                            // onClick={()=>modalClick('view')}
-                        >
-                             <Ticket 
-                                details={ticket}
-                            />
-                        </div>
-                       
+                            details={ticket}
+                        />
                     ))
                 }
             </div>
             <div 
                 className={styles.columnAddButton}
-                onClick={()=>modalClick('create')}
+                onClick={()=>setIsModalOpen(true)}
             >
                 Add Item
             </div>
@@ -85,9 +53,8 @@ export default function CardColumn({
                 isOpen={isModalOpen}
                 onAfterOpen={afterOpenModal}
                 onRequestClose={closeModal}
-                style={customStyles}
+                style={modalStyles}
                 contentLabel="Example Modal"
-
             >
                 <CreateForm closeModal={closeModal}/>
             </Modal>

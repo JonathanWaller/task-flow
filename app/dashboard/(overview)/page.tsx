@@ -36,25 +36,11 @@ export default async function Page() {
             boardColumns.map( (column: Column, index: number) => (
                 <CardColumn
                     key={index}
-                    category={column.category}
                     display = {column.display}
                     tickets={availableTickets?.length ? availableTickets.filter((x: TicketType) => x.status === column.category) : []}
                 />
             ))
         }
-
-        {/* <CardColumn 
-
-            category='Backlog'
-        /> */}
-        {/* <Card title="Collected" value={totalPaidInvoices} type="collected" />
-        <Card title="Pending" value={totalPendingInvoices} type="pending" />
-        <Card title="Total Invoices" value={numberOfInvoices} type="invoices" />
-        <Card
-          title="Total Customers"
-          value={numberOfCustomers}
-          type="customers"
-        /> */}
         {/* <Suspense fallback={<CardsSkeleton /> } >
           <CardWrapper />
         </Suspense>
