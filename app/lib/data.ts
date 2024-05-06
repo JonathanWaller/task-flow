@@ -6,7 +6,7 @@ import { unstable_noStore as noStore } from 'next/cache';
 import { Member, TicketType } from './types';
 
 export async function fetchMembers () {
-    // noStore();
+    noStore();
 
     try {
         const {rows} = await sql<Member>`SELECT * FROM members`;
@@ -18,6 +18,8 @@ export async function fetchMembers () {
 }
 
 export const fetchTickets = async () => {
+    noStore();
+
     try {
         const {rows} = await sql<TicketType>`SELECT * FROM tickets`;
         return rows;

@@ -35,16 +35,25 @@ export default function CardColumn({
     tickets: TicketType[];
 }) {
 
-    const [ isModalOpen, setIsModalOpen ] = useState<boolean>(false);
+    type ModalType = 'create' | 'view';
 
-    function afterOpenModal() {
+    const [ isModalOpen, setIsModalOpen ] = useState<boolean>(false);
+    const [ modalDisplay, setModalDisplay ] = useState< ModalType | null>();
+
+    const afterOpenModal = () => {
         // references are now sync'd and can be accessed.
         // subtitle.style.color = '#f00';
-      }
+    }
+
+    const modalClick = (type: ModalType) => {
+        setModalDisplay( type );
+        setIsModalOpen(true)
+    }
     
-      function closeModal() {
+    const closeModal = () => {
+        setModalDisplay(null);
         setIsModalOpen(false);
-      }
+    }
 
 
     return (
@@ -53,16 +62,21 @@ export default function CardColumn({
             <div className={styles.columnScroll}>
                 {
                     tickets && tickets.map((ticket: TicketType) => (
-                        <Ticket 
+                        <div
                             key={ticket.id}
-                            details={ticket}
-                        />
+                            // onClick={()=>modalClick('view')}
+                        >
+                             <Ticket 
+                                details={ticket}
+                            />
+                        </div>
+                       
                     ))
                 }
             </div>
             <div 
                 className={styles.columnAddButton}
-                onClick={()=>setIsModalOpen(true)}
+                onClick={()=>modalClick('create')}
             >
                 Add Item
             </div>
