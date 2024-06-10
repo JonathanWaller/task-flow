@@ -25,10 +25,8 @@ import Link from 'next/link';
 // import { createInvoice } from '@/app/lib/actions';
 
 const Form = ({
-  status,
   closeModal
 }: {
-  status?: 'view' | 'create';
   closeModal?: () => void;
 }) => {
 

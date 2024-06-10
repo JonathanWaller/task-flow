@@ -28,3 +28,13 @@ export const fetchTickets = async () => {
         throw new Error('Failed to fetch tickets');
     }
 }
+
+// takes in user id and finds match amonth members
+// returns member name 
+export const matchMemberData = async (userId: number) => {
+    const members = await fetchMembers();
+
+    const found = members.find( x => x.id === userId) || '';
+    if( found ) return found.name;
+    return '';
+}

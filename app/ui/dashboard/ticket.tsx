@@ -1,4 +1,5 @@
 import { useState, useEffect} from 'react';
+import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 
 import Modal from 'react-modal';
 
@@ -10,6 +11,8 @@ import EditForm from '../cards/edit-form';
 
 import styles from '@/styles/Ticket.module.css';
 
+import { matchMemberData } from '@/app/lib/data';
+
 const Ticket = ({
     details
 }: {
@@ -20,11 +23,10 @@ const Ticket = ({
     const [assignedMember, setAssignedMember ] = useState('');
 
     useEffect( () => {
-        if( details ) {
+        if( details ) {    
             const fetchMemberData = async() => {
-                const members = await fetchMembers();
-                const found = members.find( x => x.id === details.assignedto) || '';
-                found && setAssignedMember( found.name )
+
+                setAssignedMember( await matchMemberData(details.assignedto) )
             }
             fetchMemberData();
         }
@@ -40,15 +42,15 @@ const Ticket = ({
 
     return (
         <div>
-        <div 
-            className={styles.container}
-            onClick={()=>setIsModalOpen(true)}
-        >
-            <div>{details.title}</div>
-            <div>{assignedMember}</div>
-        </div>
+            <div 
+                className={styles.container}
+                onClick={()=>setIsModalOpen(true)}
+            >
+                <div>{details.title}</div>
+                <div>{assignedMember}</div>
+            </div>
 
-        <Modal
+            {/* <Modal
                 isOpen={isModalOpen}
                 onAfterOpen={afterOpenModal}
                 onRequestClose={closeModal}
@@ -59,7 +61,14 @@ const Ticket = ({
                     details={details}
                     closeModal={closeModal}
                 />
-            </Modal>
+            </Modal> */}
+
+            {/* <Sidebar>
+                <EditForm 
+                    details={details}
+                    closeModal={closeModal}
+                />
+            </Sidebar> */}
         </div>
     )
 }
