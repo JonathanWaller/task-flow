@@ -6,7 +6,7 @@ import { Column, TicketType } from '@/app/lib/types';
 
 import CardColumn from '@/app/ui/dashboard/column';
 
-import { fetchTickets } from '@/app/lib/data';
+import { fetchTickets, fetchMembers } from '@/app/lib/data';
 // import { Card } from '@/app/ui/dashboard/cards';
 // import CardWrapper from '@/app/ui/dashboard/cards';
 // import RevenueChart from '@/app/ui/dashboard/revenue-chart';
@@ -21,13 +21,12 @@ import { fetchTickets } from '@/app/lib/data';
 export default async function Page() {
     // const latestInvoices = await fetchLatestInvoices();
     const availableTickets: TicketType[] = await fetchTickets();
+    const availableMembers: any = await fetchMembers();
 
-    // const { numberOfCustomers, numberOfInvoices, totalPaidInvoices, totalPendingInvoices} = await fetchCardData();
 
 
   return (
     <main className={styles.main}>
-      {/* <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}> */}
       <h1>
         Dashboardlll
       </h1>

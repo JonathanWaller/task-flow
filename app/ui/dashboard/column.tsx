@@ -8,6 +8,8 @@ import { ColumnDisplay, TicketType } from '@/app/lib/types';
 import CreateForm from '../cards/create-form';
 import Ticket from './ticket';
 
+import { useSidebar } from '@/app/context/SidebarContext';
+
 import { modalStyles } from '@/app/lib/utils';
 
 import styles from '@/styles/CardColumn.module.css';
@@ -19,6 +21,8 @@ export default function CardColumn({
     display: ColumnDisplay;
     tickets: TicketType[];
 }) {
+
+    const { openSidebar } = useSidebar();
 
     const [ isModalOpen, setIsModalOpen ] = useState<boolean>(false);
 
@@ -35,10 +39,12 @@ export default function CardColumn({
             <div className={styles.columnScroll}>
                 {
                     tickets && tickets.map((ticket: TicketType) => (
-                        <Ticket 
-                            key={ticket.id}
-                            details={ticket}
-                        />
+                        <div onClick={openSidebar}>
+                            <Ticket 
+                                key={ticket.id}
+                                details={ticket}
+                            />
+                        </div>
                     ))
                 }
             </div>
