@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { CurrentTicketContext } from '@/app/dashboard/layout';
 
 import Modal from 'react-modal';
 
@@ -22,9 +23,12 @@ export default function CardColumn({
     tickets: TicketType[];
 }) {
 
-    const { openSidebar } = useSidebar();
+    const {currentTicket, setCurrentTicket} = useContext(CurrentTicketContext);
+
+    const { openSidebar, closeSidebar, isSidebarOpen } = useSidebar();
 
     const [ isModalOpen, setIsModalOpen ] = useState<boolean>(false);
+    
 
     const afterOpenModal = () => {
         // references are now sync'd and can be accessed.
@@ -33,13 +37,26 @@ export default function CardColumn({
 
     const closeModal = () => setIsModalOpen(false);
 
+    const ticketClicked = (ticket: TicketType) => {
+        if( isSidebarOpen) {
+            closeSidebar();
+            setTimeout( () => {
+                openSidebar();
+            }, 500)
+        } else {
+            openSidebar();
+        }
+        
+        setCurrentTicket(ticket)
+    }
+
     return (
         <div className={styles.columnContainer}>
             <div className={styles.heading}>{display}</div>
             <div className={styles.columnScroll}>
                 {
                     tickets && tickets.map((ticket: TicketType) => (
-                        <div onClick={openSidebar}>
+                        <div onClick={()=>ticketClicked(ticket)} key={ticket.id}>
                             <Ticket 
                                 key={ticket.id}
                                 details={ticket}

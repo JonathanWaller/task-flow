@@ -1,3 +1,16 @@
+.titlezz {
+  font-size: 22px;
+}
+
+.statusBadge {
+  padding: 5px;
+  width: 150px;
+  border-radius: 10px 20px;
+  background: green;
+  color: white;
+}
+
+
 .sidebar {
     /* position: fixed; or absolute, depending on your layout */
     /* position: fixed; */
